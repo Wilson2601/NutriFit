@@ -159,7 +159,7 @@ class _ClientProgressScreenState extends State<ClientProgressScreen> {
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-              childAspectRatio: 2.2,
+              childAspectRatio: 1.7,
               children: [
                 _miniCard('${data['daysAdhered']} / ${data['daysTracked']}', 'Days adhered'),
                 _miniCard('${data['avgCompliance']}%', 'Avg compliance', AppColors.blue600),

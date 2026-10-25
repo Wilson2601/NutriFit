@@ -179,15 +179,6 @@ class _CoachDashboardScreenState extends State<CoachDashboardScreen> {
           _quickAction('💬', 'Messages', AppColors.purple100, () => Navigator.of(context).pushNamed('/coach/messages')),
         ],
       ),
-      const SizedBox(height: 20),
-      OutlinedButton(
-        style: OutlinedButton.styleFrom(foregroundColor: AppColors.red600, side: const BorderSide(color: AppColors.red100)),
-        onPressed: () async {
-          await auth.logout();
-          if (context.mounted) Navigator.of(context).pushNamedAndRemoveUntil('/role', (r) => false);
-        },
-        child: const Text('Sign Out'),
-      ),
     ];
   }
 
