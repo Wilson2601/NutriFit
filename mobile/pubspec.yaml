@@ -1,0 +1,51 @@
+name: nutrifit_app
+description: "NutriFit — Smart Recipe Scaling and Adherence Mobile Application"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # Firebase
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+
+  # Push notification device tokens
+  firebase_messaging: ^15.1.3
+
+  # Local scheduled notifications (daily reminders)
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.9.4
+  flutter_timezone: ^3.0.1
+
+  # Backend API access (FastAPI)
+  http: ^1.2.2
+
+  # State management
+  provider: ^6.1.2
+
+  # Local token/session caching between app restarts
+  shared_preferences: ^2.3.2
+
+  # Date/number formatting
+  camera: ^0.11.0+2
+
+  # Profile photo (gallery or camera)
+  image_picker: ^1.1.2
+
+  # Alarm sound (the beep is generated in code)
+  audioplayers: ^6.1.0
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: nutrifit-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DEV_MODE
+        value: "false"
+      - key: FORCE_IPV4
+        value: "true"
+      - key: FIREBASE_SERVICE_ACCOUNT_JSON
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SPOONACULAR_API_KEY
+        sync: false
+      - key: USDA_API_KEY
+        sync: false

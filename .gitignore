@@ -1,0 +1,23 @@
+# Secrets - never commit
+.env
+*.env
+serviceAccountKey.json
+**/serviceAccountKey.json
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Flutter / Dart
+build/
+.dart_tool/
+.flutter-plugins-dependencies
+.idea/
+*.iml
+
+# OS / editor
+.DS_Store
+Thumbs.db

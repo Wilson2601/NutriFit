@@ -1,0 +1,100 @@
+"""Cooking instructions for the built-in recipes, keyed by recipe name."""
+
+STEPS = {
+    "Grilled Chicken Bowl": [
+        "Rinse the jasmine rice, then cook it in water until fluffy (about 15 minutes).",
+        "Slice the chicken breast and marinate it with the soy sauce and minced garlic for 10 minutes.",
+        "Heat the olive oil in a pan over medium-high heat and cook the chicken 5-6 minutes per side until no pink remains.",
+        "Steam or boil the broccoli for 3-4 minutes until bright green and tender-crisp.",
+        "Rest the chicken for 2 minutes, slice it, and serve over the rice with the broccoli.",
+    ],
+    "Salmon & Quinoa": [
+        "Rinse the quinoa and simmer it in water for 15 minutes, then fluff with a fork.",
+        "Pat the salmon dry and season with salt and pepper.",
+        "Heat half the olive oil in a pan and cook the salmon skin-side down for 4 minutes, flip, and cook 3 more minutes.",
+        "Trim the asparagus and saute in the remaining oil for 4-5 minutes.",
+        "Plate the quinoa, top with the salmon, and add the asparagus on the side.",
+    ],
+    "Egg White Omelette": [
+        "Dice the bell pepper and roughly chop the spinach.",
+        "Heat a non-stick pan over medium heat with a light spray of oil.",
+        "Cook the pepper for 2 minutes, then add the spinach until just wilted.",
+        "Pour in the egg whites and let them set for 2-3 minutes without stirring.",
+        "Fold the omelette in half and cook another minute. Serve hot.",
+    ],
+    "Greek Yogurt Bowl": [
+        "Spoon the Greek yogurt into a bowl.",
+        "Top with the oats and the chopped almonds.",
+        "Drizzle the honey on top and serve right away.",
+    ],
+    "Avocado Tuna Wrap": [
+        "Drain the tuna and flake it into a bowl.",
+        "Mash the avocado with a fork and mix it into the tuna with a pinch of salt and pepper.",
+        "Warm the wrap for 20 seconds so it folds without cracking.",
+        "Spread the filling down the middle, fold in the sides, and roll tightly. Slice in half.",
+    ],
+    "Beef & Sweet Potato": [
+        "Cut the sweet potato into cubes and roast with half the olive oil at 200 C for 25 minutes.",
+        "Slice the lean beef into strips and season with salt and pepper.",
+        "Heat the remaining oil in a pan and sear the beef 2-3 minutes per side.",
+        "Boil or steam the green beans for 4 minutes.",
+        "Serve the beef with the sweet potato and green beans.",
+    ],
+    "Tofu Stir Fry": [
+        "Cook the jasmine rice in water until fluffy.",
+        "Press the tofu for 10 minutes to remove water, then cut into cubes.",
+        "Heat the sesame oil in a wok and fry the tofu until golden on all sides, about 6 minutes.",
+        "Add the mixed vegetables and stir-fry 3-4 minutes on high heat.",
+        "Stir in the soy sauce, toss for 30 seconds, and serve over the rice.",
+    ],
+    "Turkey Chili": [
+        "Dice the onion and cook it in a large pot over medium heat for 4 minutes.",
+        "Add the ground turkey and break it up, cooking until browned, about 6 minutes.",
+        "Stir in the tomato sauce and the drained kidney beans.",
+        "Simmer on low for 20-25 minutes, stirring now and then.",
+        "Season to taste with salt, pepper and chili powder, then serve hot.",
+    ],
+    "Overnight Oats": [
+        "Combine the oats, milk and chia seeds in a jar and stir well.",
+        "Cover and refrigerate overnight (at least 6 hours).",
+        "In the morning, slice the banana and place it on top. Eat cold or warm it for 1 minute.",
+    ],
+    "Shrimp Zoodle Bowl": [
+        "Spiralize the zucchini, or use ready-made zucchini noodles.",
+        "Heat the olive oil in a pan and cook the minced garlic for 30 seconds.",
+        "Add the peeled shrimp and cook 2 minutes per side until pink.",
+        "Add the zucchini noodles and toss for 1-2 minutes, just until warm.",
+        "Top with the grated parmesan and serve immediately.",
+    ],
+    "Peanut Butter Protein Shake": [
+        "Add the milk to a blender first, then the whey protein, peanut butter and banana.",
+        "Blend on high for 30-45 seconds until smooth.",
+        "Pour into a glass and drink straight away.",
+    ],
+    "Cottage Cheese & Berries": [
+        "Spoon the cottage cheese into a bowl.",
+        "Top with the mixed berries.",
+        "Drizzle with the honey and serve.",
+    ],
+    "Chickpea Buddha Bowl": [
+        "Cook the quinoa in water for 15 minutes and let it cool slightly.",
+        "Drain and rinse the chickpeas, then pan-fry or roast them for 8-10 minutes until crisp.",
+        "Slice the avocado and arrange the mixed greens in a bowl.",
+        "Add the quinoa, chickpeas and avocado on top.",
+        "Drizzle with the tahini, thinned with a little water and lemon juice.",
+    ],
+    "Steak & Rice": [
+        "Take the steak out of the fridge 20 minutes early and season both sides with salt and pepper.",
+        "Cook the jasmine rice in water until fluffy.",
+        "Heat a pan until very hot, add the butter, and sear the steak 3-4 minutes per side for medium.",
+        "Rest the steak for 5 minutes, then slice against the grain.",
+        "Steam the broccoli for 4 minutes and serve everything together.",
+    ],
+    "Protein Pancakes": [
+        "Whisk the oat flour and whey protein together in a bowl.",
+        "Beat in the eggs and a splash of water until you have a thick batter.",
+        "Heat a lightly oiled non-stick pan over medium heat and pour in small rounds of batter.",
+        "Cook 2 minutes until bubbles form, flip, and cook another 1-2 minutes.",
+        "Stack and drizzle with the maple syrup.",
+    ],
+}

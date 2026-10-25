@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1063408259249",
+    "project_id": "nutrifit-wilson",
+    "storage_bucket": "nutrifit-wilson.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063408259249:android:b14a06f885f08c99d15290",
+        "android_client_info": {
+          "package_name": "com.example.nutrifit_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5mGnN8FfMxAoIlo2s1V7OzKFNGD6atPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
