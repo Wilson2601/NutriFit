@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../app_keys.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
 import '../services/api_service.dart';
@@ -252,13 +253,16 @@ class _OptimizedDetailState extends State<_OptimizedDetail> {
     return payload;
   }
 
+  String? _plannedId;
+
   Future<void> _savePlan() async {
     setState(() => _status = 'saving');
     try {
       final auth = context.read<AuthService>();
       final api = context.read<ApiService>();
       final payload = _recordPayload()..remove('requestId');
-      await api.planMeal(auth.token!, payload);
+      final res = await api.planMeal(auth.token!, payload);
+      _plannedId = res['id'] as String?;
       if (mounted) setState(() => _status = 'planned');
     } on ApiException catch (e) {
       if (mounted) setState(() { _error = e.message; _status = null; });
@@ -445,7 +449,7 @@ class _OptimizedDetailState extends State<_OptimizedDetail> {
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(color: AppColors.green100, borderRadius: BorderRadius.circular(16)),
             child: const Text(
-              '📅 Planned! It is now in Today\'s Meals on Home and the ingredients were added to your Grocery List. Open it from Home when you are ready to cook. It only counts as eaten after you log it.',
+              '📅 Planned! It is now in Today\'s Meals on Home and the ingredients were added to your Grocery List. Tap "View Meal" to open the recipe when you are ready to cook. It only counts as eaten after you log it.',
               style: TextStyle(fontWeight: FontWeight.w600, height: 1.35),
             ),
           ),
@@ -454,7 +458,17 @@ class _OptimizedDetailState extends State<_OptimizedDetail> {
           Row(children: [
             Expanded(child: OutlinedButton(onPressed: () => Navigator.of(context).pushNamed('/grocery'), child: const Text('🛒 Grocery List'))),
             const SizedBox(width: 12),
-            Expanded(child: ElevatedButton(onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false), child: const Text('🏠 Today\'s Meals'))),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  final id = _plannedId;
+                  final nav = Navigator.of(context);
+                  nav.pushNamedAndRemoveUntil('/home', (route) => false);
+                  if (id != null) navigatorKey.currentState?.pushNamed('/planned/$id');
+                },
+                child: const Text('🍳 View Meal'),
+              ),
+            ),
           ])
         else
           ElevatedButton(onPressed: busy ? null : _savePlan, child: Text(busy ? 'Saving…' : '📅 Plan to eat')),

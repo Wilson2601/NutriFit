@@ -1,3 +1,4 @@
+import 'dart:ui' show PointerDeviceKind;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,6 +68,7 @@ class NutriFitApp extends StatelessWidget {
         title: 'NutriFit',
         scaffoldMessengerKey: messengerKey,
         navigatorKey: navigatorKey,
+        scrollBehavior: const _DragScrollBehavior(),
         debugShowCheckedModeBanner: false,
         theme: AppTheme.userTheme,
         initialRoute: '/',
@@ -198,4 +200,16 @@ class _NotifierHostState extends State<_NotifierHost> {
     });
     return widget.child;
   }
+}
+
+/// Lets lists be dragged with a mouse or trackpad too (on the web only touch can drag by default).
+class _DragScrollBehavior extends MaterialScrollBehavior {
+  const _DragScrollBehavior();
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.trackpad,
+        PointerDeviceKind.stylus,
+      };
 }

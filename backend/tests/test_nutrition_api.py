@@ -232,3 +232,16 @@ def test_coach_gets_in_app_notifications_for_chat_and_meals():
     assert client.get("/notifications", headers=ch).json()["unread"] == 0
     # the client does not see the coach's notifications
     assert client.get("/notifications", headers=h).json()["items"] == []
+
+
+def test_undo_logged_meal_restores_plan():
+    uid, h = new_user(target=TARGET)
+    rid, r = _recipe()
+    body = {"recipeId": rid, "mealType": "Dinner", "ingredients": _weights(r)}
+    plan = client.post("/meals/plan", headers=h, json=body).json()
+    log = client.post("/meals/consume", headers=h, json={**body, "plannedId": plan["id"]}).json()
+    assert client.get("/meals/planned", headers=h).json()["planned"] == []
+    out = client.post(f"/meals/{log['id']}/undo", headers=h).json()
+    assert out["plannedRestored"] and out["plannedId"] == plan["id"]
+    assert [p["id"] for p in client.get("/meals/planned", headers=h).json()["planned"]] == [plan["id"]]
+    assert client.get("/nutrition/summary", headers=h).json()["consumed"]["calories"] == 0

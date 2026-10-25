@@ -18,6 +18,7 @@ class _PlannedMealScreenState extends State<PlannedMealScreen> {
   String? _error;
   bool _busy = false;
   bool _logged = false;
+  String? _logId;
 
   @override
   void initState() {
@@ -69,8 +70,23 @@ class _PlannedMealScreenState extends State<PlannedMealScreen> {
     try {
       final auth = context.read<AuthService>();
       final api = context.read<ApiService>();
-      await api.consumeMeal(auth.token!, payload);
+      final res = await api.consumeMeal(auth.token!, payload);
+      _logId = res['id'] as String?;
       if (mounted) setState(() { _logged = true; _busy = false; });
+    } on ApiException catch (e) {
+      if (mounted) setState(() { _error = e.message; _busy = false; });
+    }
+  }
+
+  /// Takes the logged meal back and puts the plan back into Today's Meals.
+  Future<void> _undoLog() async {
+    final id = _logId;
+    if (id == null) return;
+    setState(() { _busy = true; _error = null; });
+    try {
+      final auth = context.read<AuthService>();
+      await context.read<ApiService>().undoMeal(auth.token!, id);
+      if (mounted) setState(() { _logged = false; _logId = null; _busy = false; });
     } on ApiException catch (e) {
       if (mounted) setState(() { _error = e.message; _busy = false; });
     }
@@ -200,6 +216,10 @@ class _PlannedMealScreenState extends State<PlannedMealScreen> {
           ),
           const SizedBox(height: 12),
           ElevatedButton(onPressed: () => Navigator.of(context).pushReplacementNamed('/mission'), child: const Text('📸 Take meal photo')),
+          if (_logId != null) ...[
+            const SizedBox(height: 8),
+            OutlinedButton(onPressed: _busy ? null : _undoLog, child: const Text('↩️ Logged by mistake? Undo')),
+          ],
         ] else ...[
           ElevatedButton(onPressed: _busy ? null : _logMeal, child: Text(_busy ? 'Saving…' : '✅ I cooked it · Log meal')),
           const SizedBox(height: 8),

@@ -167,7 +167,10 @@ def consume_meal(payload: MealRecordRequest, user: dict = Depends(get_current_us
     })
     if payload.plannedId:
         planned = _user_col(uid, "plannedMeals").document(payload.plannedId)
-        if planned.get().exists:
+        plan_snap = planned.get()
+        if plan_snap.exists:
+            # Keep the plan on the log so "Undo" can put it back.
+            _user_col(uid, "mealLogs").document(ref.id).update({"plannedSnapshot": plan_snap.to_dict(), "plannedId": payload.plannedId})
             planned.delete()
     if user.get("coachId"):
         send_push_notification(
@@ -214,6 +217,25 @@ def edit_meal(meal_id: str, payload: MealEditRequest, user: dict = Depends(get_c
     update["editedAt"] = now_local().isoformat()
     ref.update(update)
     return {"id": meal_id, **{k: update[k] for k in update if k in NUTRIENTS}}
+
+
+@router.post("/meals/{meal_id}/undo")
+def undo_meal(meal_id: str, user: dict = Depends(get_current_user)):
+    """Takes back a logged meal. If it came from a plan, the plan returns to Today's Meals."""
+    _need_user(user)
+    uid = user["uid"]
+    ref = _user_col(uid, "mealLogs").document(meal_id)
+    snap = ref.get()
+    if not snap.exists:
+        raise HTTPException(status_code=404, detail="Meal not found")
+    log = snap.to_dict()
+    plan, plan_id = log.get("plannedSnapshot"), log.get("plannedId")
+    restored = False
+    if plan and plan_id:
+        _user_col(uid, "plannedMeals").document(plan_id).set(plan)
+        restored = True
+    ref.delete()
+    return {"undone": meal_id, "plannedRestored": restored, "plannedId": plan_id if restored else None}
 
 
 @router.delete("/meals/{meal_id}", status_code=204)

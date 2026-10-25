@@ -115,6 +115,8 @@ class ApiService {
       await _request('GET', '/meals/planned/$id', token: token) as Map<String, dynamic>;
   Future<void> deletePlannedMeal(String token, String id) async =>
       await _request('DELETE', '/meals/planned/$id', token: token);
+  Future<Map<String, dynamic>> undoMeal(String token, String id) async =>
+      await _request('POST', '/meals/$id/undo', token: token) as Map<String, dynamic>;
   Future<void> deleteMeal(String token, String id) async =>
       await _request('DELETE', '/meals/$id', token: token);
 

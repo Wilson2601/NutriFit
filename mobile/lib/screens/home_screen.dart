@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
 import '../services/api_service.dart';
 import '../services/alarm_service.dart';
+import '../app_keys.dart';
 import '../theme.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/user_avatar.dart';
@@ -275,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 14,
       mainAxisSpacing: 14,
-      childAspectRatio: 1.7,
+      childAspectRatio: 1.25,
       children: actions.map((a) {
         return AppCard(
           background: a['bg'] as Color,
@@ -285,12 +286,33 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(a['icon'] as String, style: const TextStyle(fontSize: 24)),
               const SizedBox(height: 8),
-              Text(a['label'] as String, style: const TextStyle(fontWeight: FontWeight.w800)),
+              Text(a['label'] as String, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800)),
             ],
           ),
         );
       }).toList(),
     );
+  }
+
+  Future<void> _confirmDeleteLog(Map<String, dynamic> m) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Remove this log?'),
+        content: Text('"${m['recipeName'] ?? 'This meal'}" will no longer count as eaten today. If you cooked it by mistake, you can plan it again from Optimize Recipe.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Keep')),
+          TextButton(onPressed: () => Navigator.of(ctx).pop(true), child: const Text('Remove')),
+        ],
+      ),
+    );
+    if (ok != true || !mounted) return;
+    try {
+      await context.read<ApiService>().deleteMeal(context.read<AuthService>().token!, m['id'] as String);
+      await _load();
+    } on ApiException catch (e) {
+      messengerKey.currentState?.showSnackBar(SnackBar(content: Text(e.message)));
+    }
   }
 
   List<Widget> _mealsList(Map<String, dynamic> data) {
@@ -313,6 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
       required Color pillText,
       required String hint,
       required VoidCallback onTap,
+      VoidCallback? onDelete,
     }) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
@@ -339,6 +362,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               StatusPill(label: pill, background: pillBg, textColor: pillText),
+              if (onDelete != null)
+                IconButton(
+                  tooltip: 'Remove this log',
+                  visualDensity: VisualDensity.compact,
+                  icon: const Icon(Icons.delete_outline, color: AppColors.red600, size: 22),
+                  onPressed: onDelete,
+                ),
             ],
           ),
         ),
@@ -365,6 +395,7 @@ class _HomeScreenState extends State<HomeScreen> {
           pillText: AppColors.green700,
           hint: 'Logged · tap to add your meal photo',
           onTap: () => Navigator.of(context).pushNamed('/mission').then((_) => _load()),
+          onDelete: () => _confirmDeleteLog(m),
         ),
     ];
   }
